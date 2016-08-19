@@ -1,0 +1,2 @@
+beautifulsoup4>=4.5.1
+wordcloud>=1.2.1
