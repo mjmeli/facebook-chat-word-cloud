@@ -11,3 +11,6 @@
 # Virtual environment
 venv/
 ENV/
+
+# Sassy mac
+.DS_Store
