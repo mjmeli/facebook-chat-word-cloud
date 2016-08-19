@@ -87,7 +87,8 @@ class TestMessageParser(TestCase):
         msg_bad1 = Message("User 3", datetime.datetime(2016, 1, 3), "Test")
         self.assertRaises(ValueError, thread.add_message, msg_bad1)
 
-        thread3 = Thread(["User 1", "User 2"], [msg1, msg2, msg3])
+        thread3 = Thread(["User 1", "User 2", "User 1"], [msg1, msg2, msg3])
+        self.assertEquals(len(thread3.users), 2)
         self.assertEqual(msg1, thread3.messages[0])
         self.assertEqual(msg3, thread3.messages[1])
         self.assertEqual(msg2, thread3.messages[2])
@@ -95,6 +96,15 @@ class TestMessageParser(TestCase):
         self.assertRaises(ValueError, thread.add_message, msg_bad1)
 
         self.assertRaises(ValueError, Thread, ["User 1"], [msg2])
+
+        thread4 = Thread()
+        thread4.add_users(["User 1", "User 2"])
+        thread4.add_message(msg1)
+        thread4.add_message(msg2)
+        self.assertEqual(msg1, thread4.messages[0])
+        self.assertEqual(msg2, thread4.messages[1])
+        msg_bad1 = Message("User 3", datetime.datetime(2016, 1, 3), "Test")
+        self.assertRaises(ValueError, thread.add_message, msg_bad1)
 
     # Test message parser constructor with good and bad HTML inputs
     def test_constructor(self):
@@ -106,5 +116,37 @@ class TestMessageParser(TestCase):
         self.assertRaises(ValueError, MessageParser, [1, 2, 3])
         self.assertRaises(ValueError, MessageParser, BeautifulSoup(self.testdata, "html.parser"))
 
+    # Test get_users_name functionality
+    def test_get_users_name(self):
+        parser = MessageParser(self.testdata)
+        self.assertEquals("John Smith", parser.get_users_name())
+
     def test_parser(self):
-        self.assertTrue(True)
+        parser = MessageParser(self.testdata)
+        thread = parser.parse_thread("Foo Bar")
+
+        # Verify thread
+        self.assertTrue("John Smith" in thread.users)
+        self.assertTrue("Foo Bar" in thread.users)
+        self.assertTrue("Bobby Notalastname" not in thread.users)
+        self.assertTrue("Linus Torvalds" not in thread.users)
+
+        # Verify messages
+        messages = thread.messages
+        self.assertEquals(len(messages), 10)
+
+    def test_parser_multiple_users(self):
+        parser = MessageParser(self.testdata)
+        thread = parser.parse_thread(["Foo Bar", "Bobby Notalastname"])
+
+        # Verify thread
+        self.assertTrue("John Smith" in thread.users)
+        self.assertTrue("Foo Bar" in thread.users)
+        self.assertTrue("Bobby Notalastname" in thread.users)
+        self.assertTrue("Linus Torvalds" not in thread.users)
+
+        # Verify messages
+        messages = thread.messages
+        self.assertEquals(len(messages), 2)
+        self.assertEquals(messages[0].contents, "Known test message #1.")
+        self.assertEquals(messages[1].contents, "Known test message #2.")

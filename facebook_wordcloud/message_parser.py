@@ -5,6 +5,7 @@
 import bisect
 import datetime
 from bs4 import BeautifulSoup
+from collections import Counter
 import dateutil.parser as dateparser
 
 """ Represents a message in the message thread """
@@ -34,9 +35,9 @@ class Thread:
     # Each thread has a list of users and a list of messages
     def __init__(self, users=None, messages=None):
         if users is None:
-            self.users = []
+            self.users = set()
         else:
-            self.users = users
+            self.users = set(users)
         if messages is None:
             self.messages = []
         else:
@@ -47,11 +48,11 @@ class Thread:
 
     # Add a user to the conversation
     def add_user(self, user):
-        self.users.append(user)
+        self.users.add(user)
 
     # Add a list of users to the conversation
     def add_users(self, users):
-        self.users.extend(users)
+        self.users.update(users)
 
     # Add a message to the conversation
     def add_message(self, message):
@@ -66,3 +67,60 @@ class MessageParser:
         if not isinstance(html, basestring):
             raise ValueError
         self.html = BeautifulSoup(html, "html.parser")
+        self.body = self.html.body
+
+    # Parse the HTML for a conversation thread
+    # Can send in either one user or a list of users
+    def parse_thread(self, users):
+        # Ensure users array is a list
+        if type(users) is not list:
+            users = [users]
+
+        # Add user's name to the list of users
+        users.append(self.get_users_name())
+
+        # Create a new thread object
+        thread = Thread(users)
+
+        # Get all of the threads
+        potential_threads = self.body.find_all("div", { "class": "thread" })
+
+        # For each thread, look to see whether the users specified are in
+        # the conversation. If so, add all the messages. There may be multiple
+        # threads in the conversation.
+        matches = 0
+        for potential_thread in potential_threads:
+            # Extract the names as a list of strings
+            potential_users = potential_thread.find(text=True, recursive=False).string.strip().split(", ")
+            potential_users = [user.encode("utf-8") for user in potential_users]
+
+            # Compare the users to see if we have a match
+            if not Counter(users) == Counter(potential_users):
+                # Not a match
+                continue
+
+            # Match if we get here. Track the number of matches
+            matches = matches + 1
+
+            # Get all of the messages
+            messages = potential_thread.find_all("div", { "class": "message" })
+
+            # Extract the information from the messages
+            for message in messages:
+                sending_user = message.find_all("span", { "class": "user" }, limit=1)[0].string
+                date = message.find_all("span", { "class": "meta" }, limit=1)[0].string
+                contents = message.find_next("p").string
+
+                # Add a message to the thread
+                thread.add_message(Message(sending_user, date, contents))
+
+        # If matches are zero, we couldn't find the conversation
+        if matches == 0:
+            raise Exception("Conversation thread could not be found")
+
+        # Return the parsed thread
+        return thread
+
+    # Parse the HTML for the user's name
+    def get_users_name(self):
+        return self.body.h1.string
