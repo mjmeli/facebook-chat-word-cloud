@@ -107,9 +107,9 @@ class MessageParser:
 
             # Extract the information from the messages
             for message in messages:
-                sending_user = message.find_all("span", { "class": "user" }, limit=1)[0].string
-                date = message.find_all("span", { "class": "meta" }, limit=1)[0].string
-                contents = message.find_next("p").string
+                sending_user = message.find_all("span", { "class": "user" }, limit=1)[0].string.encode("utf-8")
+                date = message.find_all("span", { "class": "meta" }, limit=1)[0].string.encode("utf-8")
+                contents = message.find_next("p").string.encode("utf-8")
 
                 # Add a message to the thread
                 thread.add_message(Message(sending_user, date, contents))
