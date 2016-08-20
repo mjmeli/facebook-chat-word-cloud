@@ -9,6 +9,7 @@ Requirements
 This uses `lxml` to parse the messages file provided by Facebook. This requires `libxml2` and `libxslt` to be installed.
 
 For Debian/Ubuntu:
+
     sudo apt-get install libxml2-dev libxslt-dev python-dev
 
 Installation
