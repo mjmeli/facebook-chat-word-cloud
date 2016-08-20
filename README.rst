@@ -1,5 +1,7 @@
 facebook-chat-word-cloud
 ========================
+.. image:: https://travis-ci.org/mjmeli/facebook-chat-word-cloud.svg?branch=master
+    :target: https://travis-ci.org/mjmeli/facebook-chat-word-cloud
 A Python tool for generating a word cloud for a Facebook chat conversation.
 
 Installation
