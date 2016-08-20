@@ -17,7 +17,7 @@ class TestMessageParser(TestCase):
         self.assertTrue(isinstance(self.testdata, str))
 
         # Should be able to convert to HTML. If this fails, the test fails.
-        soup = BeautifulSoup(self.testdata, "html.parser")
+        soup = BeautifulSoup(self.testdata, "html5lib")
 
     # Test whether messages are handled with dates sent as strings or date objects
     def test_message(self):

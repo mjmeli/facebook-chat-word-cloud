@@ -60,13 +60,17 @@ class Thread:
             raise ValueError
         bisect.insort(self.messages, message)
 
+    # Return message contents
+    def get_messages_contents(self):
+        return [message.contents for message in self.messages]
+
 """ The message parser itself """
 class MessageParser:
     # HTML should be sent in as a string
     def __init__(self, html):
         if not isinstance(html, basestring):
             raise ValueError
-        self.html = BeautifulSoup(html, "html.parser")
+        self.html = BeautifulSoup(html, "html5lib")
         self.body = self.html.body
 
     # Parse the HTML for a conversation thread
@@ -91,8 +95,11 @@ class MessageParser:
         matches = 0
         for potential_thread in potential_threads:
             # Extract the names as a list of strings
-            potential_users = potential_thread.find(text=True, recursive=False).string.strip().split(", ")
-            potential_users = [user.encode("utf-8") for user in potential_users]
+            try:
+                potential_users = potential_thread.find(text=True, recursive=False).string.strip().split(", ")
+                potential_users = [user.encode("utf-8") for user in potential_users]
+            except AttributeError:
+                continue
 
             # Compare the users to see if we have a match
             if not Counter(users) == Counter(potential_users):

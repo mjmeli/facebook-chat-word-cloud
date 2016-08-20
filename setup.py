@@ -25,7 +25,8 @@ setup(name='facebook_wordcloud',
       install_requires=[
           'wordcloud',
           'beautifulsoup4',
-          'python-dateutil'
+          'python-dateutil',
+          'html5lib'
       ],
       zip_safe=False,
       entry_points = {
