@@ -15,3 +15,6 @@ ENV/
 
 # Sassy mac
 .DS_Store
+
+# For temporary storage away from the repo
+tmp/

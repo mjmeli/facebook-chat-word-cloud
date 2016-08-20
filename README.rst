@@ -27,3 +27,22 @@ Testing
 Releasing
 ---------
 https://python-packaging.readthedocs.io/en/latest/minimal.html
+
+Parser Choice
+-------------
+Benchmarks to parse a 60 MB file:
+
+lxml: 10 seconds
+BeautifulSoup:
+
++---------------+-----------------------------+-------------------+
+| Parser        | Runtime (ms)                | Max Memory Usage  |
+|               +------------+----------------+                   |
+|               | Build Tree | Parse Messages |                   |
++===============+============+================+===================+
+| BeautifulSoup | 90750      | 9300           | 3450 MB (3.45 GB) |
++---------------+------------+----------------+-------------------+
+| lxml          | 1945       | 935            | 910 MB (0.91 GB)  |
++---------------+------------+----------------+-------------------+
+
+Raw: 3452668
