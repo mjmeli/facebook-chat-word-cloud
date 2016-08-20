@@ -4,7 +4,7 @@
 """
 import bisect
 import datetime
-from bs4 import BeautifulSoup
+from lxml import html
 from collections import Counter
 import dateutil.parser as dateparser
 
@@ -67,11 +67,10 @@ class Thread:
 """ The message parser itself """
 class MessageParser:
     # HTML should be sent in as a string
-    def __init__(self, html):
-        if not isinstance(html, basestring):
+    def __init__(self, htmlstr):
+        if not isinstance(htmlstr, basestring):
             raise ValueError
-        self.html = BeautifulSoup(html, "html5lib")
-        self.body = self.html.body
+        self.html = html.fromstring(htmlstr)
 
     # Parse the HTML for a conversation thread
     # Can send in either one user or a list of users
@@ -87,7 +86,7 @@ class MessageParser:
         thread = Thread(users)
 
         # Get all of the threads
-        potential_threads = self.body.find_all("div", { "class": "thread" })
+        potential_threads = self.html.xpath("//div[@class='thread']")
 
         # For each thread, look to see whether the users specified are in
         # the conversation. If so, add all the messages. There may be multiple
@@ -96,7 +95,7 @@ class MessageParser:
         for potential_thread in potential_threads:
             # Extract the names as a list of strings
             try:
-                potential_users = potential_thread.find(text=True, recursive=False).string.strip().split(", ")
+                potential_users = potential_thread.xpath("text()")[0].strip().split(", ")
                 potential_users = [user.encode("utf-8") for user in potential_users]
             except AttributeError:
                 continue
@@ -110,13 +109,13 @@ class MessageParser:
             matches = matches + 1
 
             # Get all of the messages
-            messages = potential_thread.find_all("div", { "class": "message" })
+            messages = potential_thread.xpath("div[@class='message']")
 
             # Extract the information from the messages
             for message in messages:
-                sending_user = message.find_all("span", { "class": "user" }, limit=1)[0].string.encode("utf-8")
-                date = message.find_all("span", { "class": "meta" }, limit=1)[0].string.encode("utf-8")
-                contents = message.find_next("p").string.encode("utf-8")
+                sending_user = message.xpath("div/span[@class='user']/text()")[0]
+                date = message.xpath("div/span[@class='meta']/text()")[0]
+                contents = message.xpath("following::p/text()")[0]
 
                 # Add a message to the thread
                 thread.add_message(Message(sending_user, date, contents))
@@ -130,4 +129,4 @@ class MessageParser:
 
     # Parse the HTML for the user's name
     def get_users_name(self):
-        return self.body.h1.string
+        return self.html.xpath("/html/body/div/h1/text()")[0]

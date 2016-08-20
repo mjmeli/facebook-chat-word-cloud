@@ -1,6 +1,6 @@
 import os
 import datetime
-from bs4 import BeautifulSoup
+from lxml import html
 from unittest import TestCase
 
 from facebook_wordcloud.message_parser import *
@@ -17,7 +17,7 @@ class TestMessageParser(TestCase):
         self.assertTrue(isinstance(self.testdata, str))
 
         # Should be able to convert to HTML. If this fails, the test fails.
-        soup = BeautifulSoup(self.testdata, "html5lib")
+        html_tree = html.fromstring(self.testdata)
 
     # Test whether messages are handled with dates sent as strings or date objects
     def test_message(self):
@@ -114,7 +114,7 @@ class TestMessageParser(TestCase):
 
         # Now try with bad inputs
         self.assertRaises(ValueError, MessageParser, [1, 2, 3])
-        self.assertRaises(ValueError, MessageParser, BeautifulSoup(self.testdata, "html.parser"))
+        self.assertRaises(ValueError, MessageParser, html.fromstring(self.testdata))
 
     # Test get_users_name functionality
     def test_get_users_name(self):

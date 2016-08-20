@@ -4,6 +4,13 @@ facebook-chat-word-cloud
     :target: https://travis-ci.org/mjmeli/facebook-chat-word-cloud
 A Python tool for generating a word cloud for a Facebook chat conversation.
 
+Requirements
+------------
+This uses `lxml` to parse the messages file provided by Facebook. This requires `libxml2` and `libxslt` to be installed.
+
+For Debian/Ubuntu:
+    sudo apt-get install libxml2-dev libxslt-dev python-dev
+
 Installation
 ------------
     pip install .
