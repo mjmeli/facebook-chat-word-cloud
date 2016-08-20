@@ -30,7 +30,7 @@ https://python-packaging.readthedocs.io/en/latest/minimal.html
 
 Parser Choice
 -------------
-Benchmarks from attempting to analyze a 60 MB file:
+Benchmarks from attempting to analyze a 60 MB file: 
 
 +---------------+-----------------------------+-------------------+
 | Parser        | Runtime (ms)                | Max Memory Usage  |
