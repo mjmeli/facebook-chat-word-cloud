@@ -26,7 +26,7 @@ setup(name='facebook_wordcloud',
           'wordcloud',
           'beautifulsoup4',
           'python-dateutil',
-          'html5lib'
+          'html5lib==1.0b8'
       ],
       zip_safe=False,
       entry_points = {
