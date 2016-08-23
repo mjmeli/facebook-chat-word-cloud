@@ -1,6 +1,7 @@
 import facebook_wordcloud
 from message_parser import *
 import word_counter
+import tuple_helper
 
 import os
 
@@ -21,5 +22,8 @@ def main():
     thread = parser.parse_thread("Kylie Geller")
     messages = thread.get_messages_contents()
 
-    # Get occurrences
-    # print word_counter.get_occurrences(messages)
+    # Get top frequencies of each word
+    freq_tuple = word_counter.get_occurrences_tuple(messages)
+
+    # Get top 200 of those
+    freq_top = tuple_helper.get_nlargest_tuples(freq_tuple, 200, 1)
