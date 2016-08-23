@@ -120,3 +120,16 @@ class TestWordCounter(TestCase):
             "cake": 1
         }
         self.assertEquals(Counter(filter_stopwords(input_dict)), Counter(expected_output))
+
+    # Test filtering stopwords with custom stopwords
+    def test_filtering_stopwords_tuple(self):
+        input_tuple = [
+            ("the", 123),
+            ("a", 25),
+            ("apple", 4),
+            ("cake", 2)
+        ]
+        expected_output = [
+            ("apple", 4)
+        ]
+        self.assertEquals(Counter(filter_stopwords(input_tuple, ["cake"])), Counter(expected_output))
