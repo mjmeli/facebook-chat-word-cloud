@@ -8,6 +8,10 @@ from lxml import html
 from collections import Counter
 import dateutil.parser as dateparser
 
+""" Unique message parser exception """
+class MessageParserException(Exception):
+    pass
+
 """ Represents a message in the message thread """
 class Message:
     # Each message has a sender, date, and a contents
@@ -145,7 +149,7 @@ class MessageParser:
 
         # If matches are zero, we couldn't find the conversation
         if matches == 0:
-            raise Exception("Conversation thread could not be found")
+            raise MessageParserException("Conversation thread could not be found")
 
         # Print results
         print "RESULTS: Parsed %d threads and %d messages for %d text messages" % (matches, messages_parsed, messages_added)

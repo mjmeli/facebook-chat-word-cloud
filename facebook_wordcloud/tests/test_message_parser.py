@@ -150,3 +150,7 @@ class TestMessageParser(TestCase):
         self.assertEquals(len(messages), 2)
         self.assertEquals(messages[0].contents, "Known test message #1.")
         self.assertEquals(messages[1].contents, "Known test message #2.")
+
+    def test_parser_invalid_conversation(self):
+        parser = MessageParser(self.testdata)
+        self.assertRaises(MessageParserException, parser.parse_thread, "Rick and Morty")
