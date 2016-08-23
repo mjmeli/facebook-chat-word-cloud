@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from facebook_wordcloud.word_counter import *
+from collections import Counter
 
 class TestWordCounter(TestCase):
     # Test individual strings
@@ -13,6 +14,7 @@ class TestWordCounter(TestCase):
             "cake": 1
         }
         self.assertEquals(get_occurrences(test_strings), expected_counts)
+        self.assertEquals(Counter(get_occurrences_tuple(test_strings)), Counter(expected_counts.items()))
 
     # Test duplicate individual strings
     def test_duplicate_individual_strings(self):
@@ -24,6 +26,7 @@ class TestWordCounter(TestCase):
             "cake": 1
         }
         self.assertEquals(get_occurrences(test_strings), expected_counts)
+        self.assertEquals(Counter(get_occurrences_tuple(test_strings)), Counter(expected_counts.items()))
 
     # Test not sending in a list
     def test_nonlist_individual_string(self):
@@ -32,6 +35,7 @@ class TestWordCounter(TestCase):
             "apple": 1
         }
         self.assertEquals(get_occurrences(test_strings), expected_counts)
+        self.assertEquals(Counter(get_occurrences_tuple(test_strings)), Counter(expected_counts.items()))
 
     # Test not sending in a list, but sending in multiple strings
     def test_nonlist_multiple_strings(self):
@@ -43,6 +47,7 @@ class TestWordCounter(TestCase):
             "cake": 1
         }
         self.assertEquals(get_occurrences(test_strings), expected_counts)
+        self.assertEquals(Counter(get_occurrences_tuple(test_strings)), Counter(expected_counts.items()))
 
     # Test sending in sentences with duplicate words
     def test_duplicate_multiple_strings(self):
@@ -55,6 +60,7 @@ class TestWordCounter(TestCase):
             "good": 2
         }
         self.assertEquals(get_occurrences(test_strings), expected_counts)
+        self.assertEquals(Counter(get_occurrences_tuple(test_strings)), Counter(expected_counts.items()))
 
     # Test punctuated strings appearing as one word
     def test_punctuated_string(self):
@@ -64,6 +70,7 @@ class TestWordCounter(TestCase):
             "i've": 1
         }
         self.assertEquals(get_occurrences(test_strings), expected_counts)
+        self.assertEquals(Counter(get_occurrences_tuple(test_strings)), Counter(expected_counts.items()))
 
     # Test mixed case strings
     def test_mixed_case_strings(self):
@@ -73,3 +80,15 @@ class TestWordCounter(TestCase):
             "cake": 1
         }
         self.assertEquals(get_occurrences(test_strings), expected_counts)
+        self.assertEquals(Counter(get_occurrences_tuple(test_strings)), Counter(expected_counts.items()))
+
+    # Test tuple function
+    def test_tuple(self):
+        test_strings = ["apple", "pie", "bananas", "cake"]
+        expected_counts = [
+            ("apple", 1),
+            ("pie", 1),
+            ("bananas", 1),
+            ("cake", 1)
+        ]
+        self.assertEquals(Counter(get_occurrences_tuple(test_strings)), Counter(expected_counts))

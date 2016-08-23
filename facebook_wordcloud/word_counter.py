@@ -5,6 +5,8 @@
 import re
 from collections import Counter
 
+# Get the occurrences of each word as a dictionary.
+# strings = a list of strings, can be strings of any length/number of words
 def get_occurrences(strings):
     # Ensure users array is a list
     if type(strings) is not list:
@@ -22,3 +24,8 @@ def get_occurrences(strings):
         counts.update(words.findall(sentence.lower()))
 
     return dict(counts)
+
+# Get the occurrences of each word as a tuple.
+# strings = a list of strings, can be strings of any length/number of words
+def get_occurrences_tuple(strings):
+    return get_occurrences(strings).items()
