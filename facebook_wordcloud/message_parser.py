@@ -120,7 +120,7 @@ class MessageParser:
                 try:
                     sending_user = header.xpath("div/span[@class='user']/text()[1]")[0]
                     date = header.xpath("div/span[@class='meta']/text()[1]")[0]
-                    contents = message_contents[i].xpath("text()")[0]
+                    contents = str(message_contents[i].xpath("text()")[0])
 
                     # Add a message to the thread
                     thread.add_message(Message(sending_user, date, contents))
