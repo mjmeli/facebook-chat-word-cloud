@@ -13,12 +13,13 @@ def main():
         testdata = f.read()
 
     # Parse the HTML (may take a long time)
-    print "Parsing HTML..."
+    print "Building HTML tree..."
     parser = MessageParser(testdata)
 
     # Extract messages from the parsed HTML
-    # thread = parser.parse_thread("Foo Bar")
-    # messages = thread.get_messages_contents()
+    print "Parsing messages..."
+    thread = parser.parse_thread("Kylie Geller")
+    messages = thread.get_messages_contents()
 
     # Get occurrences
     # print word_counter.get_occurrences(messages)

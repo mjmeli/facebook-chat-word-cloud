@@ -97,7 +97,9 @@ class MessageParser:
             try:
                 potential_users = potential_thread.xpath("text()")[0].strip().split(", ")
                 potential_users = [user.encode("utf-8") for user in potential_users]
-            except AttributeError:
+            except (AttributeError, IndexError):
+                # An exception may be thrown if a thread is found with no users
+                # attached to it. Why does this happen? I don't know. Skip it.
                 continue
 
             # Compare the users to see if we have a match
@@ -108,17 +110,30 @@ class MessageParser:
             # Match if we get here. Track the number of matches
             matches = matches + 1
 
-            # Get all of the messages
-            messages = potential_thread.xpath("div[@class='message']")
+            # Get all of the message headers and message contents
+            message_headers = potential_thread.xpath("div[@class='message']")
+            message_contents = potential_thread.xpath("p")
+            print "Found %d messages in thread #%d" % (len(message_headers), matches)
 
             # Extract the information from the messages
-            for message in messages:
-                sending_user = message.xpath("div/span[@class='user']/text()")[0]
-                date = message.xpath("div/span[@class='meta']/text()")[0]
-                contents = message.xpath("following::p/text()")[0]
+            for i, header in enumerate(message_headers):
+                try:
+                    sending_user = header.xpath("div/span[@class='user']/text()[1]")[0]
+                    date = header.xpath("div/span[@class='meta']/text()[1]")[0]
+                    contents = message_contents[i].xpath("text()")[0]
 
-                # Add a message to the thread
-                thread.add_message(Message(sending_user, date, contents))
+                    # Add a message to the thread
+                    thread.add_message(Message(sending_user, date, contents))
+                except (AttributeError, IndexError):
+                    # If the message is not a text message (i.e. picture), then
+                    # the call to text() will throw this exception. Do not
+                    # add this message as it contains no words.
+                    continue
+                except ValueError:
+                    # Value error is raised when a message is sent by a user
+                    # not in the thread. Possible if they were added later.
+                    # In this case, discard the rest of the thread?
+                    break
 
         # If matches are zero, we couldn't find the conversation
         if matches == 0:
