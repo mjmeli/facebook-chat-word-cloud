@@ -5,9 +5,9 @@
 import re
 from collections import Counter
 
-# Get the occurrences of each word as a dictionary.
+# Get the frequencies of each word as a dictionary.
 # strings = a list of strings, can be strings of any length/number of words
-def get_occurrences(strings):
+def get_frequencies(strings):
     # Ensure users array is a list
     if type(strings) is not list:
         strings = [strings]
@@ -25,7 +25,7 @@ def get_occurrences(strings):
 
     return dict(counts)
 
-# Get the occurrences of each word as a tuple.
+# Get the frequencies of each word as a tuple.
 # strings = a list of strings, can be strings of any length/number of words
-def get_occurrences_tuple(strings):
-    return get_occurrences(strings).items()
+def get_frequencies_tuple(strings):
+    return get_frequencies(strings).items()
