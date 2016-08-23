@@ -5,6 +5,7 @@ import tuple_helper
 from wordcloud import WordCloud
 
 import os
+import json
 
 def main():
     print "Alpha Development"
@@ -20,7 +21,7 @@ def main():
 
     # Extract messages from the parsed HTML
     print "Parsing messages..."
-    thread = parser.parse_thread("Staton Grimes")
+    thread = parser.parse_thread("Kylie Geller")
     messages = thread.get_messages_contents()
 
     # Get top frequencies of each word
@@ -38,22 +39,26 @@ def main():
     # Parameters for word cloud
     # http://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html#wordcloud.WordCloud
     # TODO: Implement these as command line parameters
-    wordcloud_args = {}
-    wordcloud_args["font_path"] = None
-    wordcloud_args["width"] = 400
-    wordcloud_args["height"] = 200
-    wordcloud_args["ranks_only"] = False
-    wordcloud_args["prefer_horizontal"] = 0.90
-    wordcloud_args["mask"] = None
-    wordcloud_args["scale"] = 1.0
-    wordcloud_args["max_words"] = 200
-    wordcloud_args["stopwords"] = None
-    wordcloud_args["background_color"] = "black"
-    wordcloud_args["max_font_size"] = None
-    wordcloud_args["min_font_size"] = 4
-    wordcloud_args["font_step"] = 1
-    wordcloud_args["mode"] = "RGB"
-    wordcloud_args["relative_scaling"] = 0.5
+    JSON_FILENAME = os.path.join(os.path.dirname(__file__), "../config.json")
+    with open(JSON_FILENAME, 'r') as f:
+        config = json.load(f)
+    # wordcloud_args = {}
+    # wordcloud_args["font_path"] = None
+    # wordcloud_args["width"] = 400
+    # wordcloud_args["height"] = 200
+    # wordcloud_args["ranks_only"] = False
+    # wordcloud_args["prefer_horizontal"] = 0.90
+    # wordcloud_args["mask"] = None
+    # wordcloud_args["scale"] = 1.0
+    # wordcloud_args["max_words"] = 200
+    # wordcloud_args["stopwords"] = None
+    # wordcloud_args["background_color"] = "black"
+    # wordcloud_args["max_font_size"] = None
+    # wordcloud_args["min_font_size"] = 4
+    # wordcloud_args["font_step"] = 1
+    # wordcloud_args["mode"] = "RGB"
+    # wordcloud_args["relative_scaling"] = 0.5
+    wordcloud_args = config['wordcloud_configuration']
 
     # Generate the word cloud and show
     wordcloud = WordCloud(**wordcloud_args).generate_from_frequencies(freq_top)

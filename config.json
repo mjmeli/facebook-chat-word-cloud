@@ -1,0 +1,19 @@
+{
+    "wordcloud_configuration": {
+        "font_path": null,
+        "width": 400,
+        "height": 200,
+        "ranks_only": false,
+        "prefer_horizontal": 0.9,
+        "mask": null,
+        "scale": 1,
+        "max_words": 200,
+        "stopwords": null,
+        "background_color": "black",
+        "max_font_size": null,
+        "min_font_size": 4,
+        "font_step": 1,
+        "mode": "RGB",
+        "relative_scaling": 0.5
+    }
+}
