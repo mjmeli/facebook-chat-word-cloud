@@ -92,6 +92,8 @@ class MessageParser:
         # the conversation. If so, add all the messages. There may be multiple
         # threads in the conversation.
         matches = 0
+        messages_added = 0
+        messages_parsed = 0
         for potential_thread in potential_threads:
             # Extract the names as a list of strings
             try:
@@ -117,27 +119,36 @@ class MessageParser:
 
             # Extract the information from the messages
             for i, header in enumerate(message_headers):
+                messages_parsed = messages_parsed + 1
                 try:
                     sending_user = header.xpath("div/span[@class='user']/text()[1]")[0]
                     date = header.xpath("div/span[@class='meta']/text()[1]")[0]
-                    contents = str(message_contents[i].xpath("text()")[0])
+                    contents = message_contents[i].xpath("text()")[0]
 
                     # Add a message to the thread
                     thread.add_message(Message(sending_user, date, contents))
+
+                    messages_added = messages_added + 1
                 except (AttributeError, IndexError):
                     # If the message is not a text message (i.e. picture), then
                     # the call to text() will throw this exception. Do not
                     # add this message as it contains no words.
                     continue
-                except ValueError:
-                    # Value error is raised when a message is sent by a user
-                    # not in the thread. Possible if they were added later.
-                    # In this case, discard the rest of the thread?
-                    break
+                except ValueError as e:
+                    # Value error may be raised in a few scenarios. Namely, if
+                    # a new user was added to the thread. In this scenario,
+                    # skip the rest of the thread. Else, skip just this message.
+                    if not sending_user in users:
+                        break
+                    else:
+                        continue
 
         # If matches are zero, we couldn't find the conversation
         if matches == 0:
             raise Exception("Conversation thread could not be found")
+
+        # Print results
+        print "RESULTS: Parsed %d threads and %d messages for %d text messages" % (matches, messages_parsed, messages_added)
 
         # Return the parsed thread
         return thread

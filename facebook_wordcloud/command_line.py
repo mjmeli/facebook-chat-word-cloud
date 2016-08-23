@@ -19,11 +19,13 @@ def main():
 
     # Extract messages from the parsed HTML
     print "Parsing messages..."
-    thread = parser.parse_thread("Kylie Geller")
+    thread = parser.parse_thread("Staton Grimes")
     messages = thread.get_messages_contents()
 
     # Get top frequencies of each word
-    freq_tuple = word_counter.get_occurrences_tuple(messages)
+    freq_tuple = word_counter.get_frequencies_tuple(messages)
 
     # Get top 200 of those
     freq_top = tuple_helper.get_nlargest_tuples(freq_tuple, 200, 1)
+
+    print freq_top
