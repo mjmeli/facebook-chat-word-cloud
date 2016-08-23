@@ -15,7 +15,7 @@ The majority of configuration required is for configuring the word cloud. The wo
 
 I recommend exploring that library for configuration parameters.
 
-For simplicity, I've provided four examples. The first (`default`) is simply the default parameters (i.e., you don't even need to reference this configuation, but I include it to show the user defaults), the second (`simple`) is a simple modification of those defaults. Getting more advanced, one (`masked`) shows how to mask the word cloud with an image, and the last one (`colored`) shows how to do coloring based on a mask image.
+For simplicity, I've provided five examples. The first (`default`) is simply the default parameters (i.e., you don't even need to reference this configuation, but I include it to show the user defaults), the second (`simple`) is a simple modification of those defaults. Getting more advanced, one (`masked`) shows how to mask the word cloud with an image, and the last ones (`colored` and `colored2`) show how to do coloring based on a mask image.
 
 Each example is essentially a `config.json` file that can be specified as a command line argument to the script.
 
@@ -24,6 +24,7 @@ Each example is essentially a `config.json` file that can be specified as a comm
     facebook_wordcloud messages_sample.htm "Foo Bar" -c simple/config.json
     facebook_wordcloud messages_sample.htm "Foo Bar" -c masked/config.json
     facebook_wordcloud messages_sample.htm "Foo Bar" -c colored/config.json
+    facebook_wordcloud messages_sample.htm "Foo Bar" -c colored2/config.json
 
 Masks were found at: http://www.stencilry.org/stencils/
 
@@ -38,6 +39,9 @@ Masks were found at: http://www.stencilry.org/stencils/
 
 ### Colored
 ![Colored](colored/output.png)
+
+### Colored 2
+![Colored2](colored2/output.png)
 
 ## Issues
 **IOError: Couldn't locate mask file...did you make sure to specify the URL relative to where you are running the script?**

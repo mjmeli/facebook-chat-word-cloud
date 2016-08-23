@@ -89,6 +89,8 @@ See the **examples** directory for some great examples of what you can do and so
 
 .. image:: examples/simple/output.png
 
+.. image:: examples/colored2/output.png
+
 .. image:: examples/masked/output.png
 
 .. image:: examples/colored/output.png

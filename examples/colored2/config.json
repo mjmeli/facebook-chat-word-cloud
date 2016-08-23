@@ -1,0 +1,19 @@
+{
+    "wordcloud_config": {
+        "font_path": null,
+        "width": 400,
+        "height": 200,
+        "prefer_horizontal": 0.9,
+        "mask": "colored2/heart.png",
+        "scale": 1,
+        "max_words": 2000,
+        "stopwords": "'",
+        "background_color": "#FFE3E3",
+        "max_font_size": null,
+        "min_font_size": 4,
+        "font_step": 1,
+        "mode": "RGB",
+        "relative_scaling": 0.5,
+        "coloring": true
+    }
+}
