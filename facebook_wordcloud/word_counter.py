@@ -4,9 +4,7 @@
 """
 import os
 import re
-import nltk
 from collections import Counter
-from nltk.corpus import stopwords
 
 STOPWORDS_FILE = os.path.join(os.path.dirname(__file__), "STOPWORDS")
 

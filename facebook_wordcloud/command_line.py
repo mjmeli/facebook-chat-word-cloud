@@ -29,7 +29,7 @@ def main():
         with open(args.config_file, 'r') as f:
             config = json.load(f)
         try:
-            config["wordcloud_configuration"]["stopwords"] = config["wordcloud_configuration"]["stopwords"].split(" ")
+            config["wordcloud_configuration"]["stopwords"] = [word.strip() for word in config["wordcloud_configuration"]["stopwords"].split(" ")]
         except KeyError:
             pass
     else:
@@ -60,7 +60,7 @@ def main():
     # Filter out stop words
     print "Filtering out stop words..."
     try:
-        custom_stopwords = config['wordcloud_configuration']['stopwords']
+        custom_stopwords = config["wordcloud_configuration"]["stopwords"]
         freq_tuple_filtered = word_counter.filter_stopwords(freq_tuple, custom_stopwords)
     except KeyError:
         freq_tuple_filtered = word_counter.filter_stopwords(freq_tuple)
@@ -71,7 +71,8 @@ def main():
 
     # Parameters for word cloud
     # http://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html#wordcloud.WordCloud
-    wordcloud_args = config['wordcloud_configuration']
+    wordcloud_args = config["wordcloud_configuration"]
+    wordcloud_args.pop("stopwords", None)
 
     # Generate the word cloud and show
     wordcloud = WordCloud(**wordcloud_args).generate_from_frequencies(freq_top)
