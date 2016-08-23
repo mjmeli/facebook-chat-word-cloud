@@ -1,13 +1,13 @@
 {
     "wordcloud_config": {
         "font_path": null,
-        "width": 400,
-        "height": 200,
+        "width": 600,
+        "height": 400,
         "prefer_horizontal": 0.9,
         "mask": null,
         "scale": 1,
-        "max_words": 200,
-        "stopwords": "a the",
+        "max_words": 500,
+        "stopwords": "' a the",
         "background_color": "black",
         "max_font_size": null,
         "min_font_size": 4,

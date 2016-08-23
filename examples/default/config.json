@@ -7,7 +7,7 @@
         "mask": null,
         "scale": 1,
         "max_words": 200,
-        "stopwords": "a the",
+        "stopwords": null,
         "background_color": "black",
         "max_font_size": null,
         "min_font_size": 4,

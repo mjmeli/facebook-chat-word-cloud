@@ -3,17 +3,17 @@
         "font_path": null,
         "width": 400,
         "height": 200,
-        "prefer_horizontal": 0.9,
-        "mask": null,
+        "prefer_horizontal": 0.75,
+        "mask": "colored/american_flag.png",
         "scale": 1,
-        "max_words": 200,
-        "stopwords": "a the",
-        "background_color": "black",
+        "max_words": 10000,
+        "stopwords": "'",
+        "background_color": "white",
         "max_font_size": null,
-        "min_font_size": 4,
+        "min_font_size": 1,
         "font_step": 1,
         "mode": "RGB",
         "relative_scaling": 0.5,
-        "coloring": false
+        "coloring": true
     }
 }

@@ -7,7 +7,7 @@ import os
 CONFIGURATION_ARGS = ["font_path", "width", "height", "prefer_horizontal",
                       "mask", "scale", "max_words", "stopwords",
                       "background_color", "max_font_size", "min_font_size",
-                      "font_step", "mode", "relative_scaling"]
+                      "font_step", "mode", "relative_scaling", "coloring"]
 
 # Checks whether an argument is a valid file
 # Source: http://codereview.stackexchange.com/questions/28608/checking-if-cli-arguments-are-valid-files-directories-in-python
@@ -71,13 +71,21 @@ def generate_argparse(parser):
     parser.add_argument("-rs", "--relative-scaling",
                         help="importance of relative word frequencies for font size",
                         type=float)
+    parser.add_argument("-color", "--coloring",
+                        help="importance of relative word frequencies for font size",
+                        action="store_true")
 
 # Load args that were provided into a dictionary
 def load_args(args, store):
     args_dict = vars(args)
     for config_arg in CONFIGURATION_ARGS:
-        if config_arg == "stopwords" and args_dict["stopwords"] is not None:
-            stopwords = "".join(args_dict["stopwords"]).split(" ")
-            store["wordcloud_configuration"]["stopwords"] = stopwords
-        elif args_dict[config_arg] is not None:
-            store["wordcloud_configuration"][config_arg] = args_dict[config_arg]
+        if args_dict[config_arg] is not None:
+            # If stopwords were provided, need to convert them into a python list
+            if config_arg == "stopwords":
+                stopwords = "".join(args_dict["stopwords"]).split(" ")
+                store["wordcloud_config"]["stopwords"] = stopwords
+            elif config_arg == "coloring":
+                if args_dict["coloring"] is True:
+                    store["wordcloud_config"]["coloring"] = True
+            else:
+                store["wordcloud_config"][config_arg] = args_dict[config_arg]

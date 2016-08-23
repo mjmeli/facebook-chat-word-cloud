@@ -42,7 +42,7 @@ def load_stopwords():
 
 
 # Filter out stopworks from a frequencies dict or tuple
-def filter_stopwords(frequencies, additional_stopwords=[]):
+def filter_stopwords(frequencies, additional_stopwords=None):
     # Convert to tuples for easy of development if dictionary
     is_dict = False
     if type(frequencies) is dict:
@@ -53,8 +53,9 @@ def filter_stopwords(frequencies, additional_stopwords=[]):
     stopwords = load_stopwords()
 
     # Add in additional stopwords
-    for word in additional_stopwords:
-        stopwords.add(word)
+    if additional_stopwords is not None:
+        for word in additional_stopwords:
+            stopwords.add(word)
 
     # Filter out words that are stopwords
     filtered = []

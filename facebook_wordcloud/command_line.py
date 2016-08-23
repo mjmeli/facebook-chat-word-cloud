@@ -2,13 +2,16 @@ import facebook_wordcloud
 from message_parser import *
 import word_counter
 import tuple_helper
-from wordcloud import WordCloud
+from wordcloud import WordCloud, ImageColorGenerator
 
 import os
 import sys
 import json
+import copy
 import argparse
 import arghelper
+import numpy as np
+from PIL import Image
 
 def main():
     print "Alpha Development"
@@ -16,24 +19,19 @@ def main():
     # Set up argument parser
     parser = argparse.ArgumentParser()
     arghelper.generate_argparse(parser)
-    try:
-        args = parser.parse_args()
-    except:
-        parser.print_help()
-        print "For more information on word cloud options, see:\n  https://github.com/amueller/word_cloud"
-        print "I recommend using a config.json file to set options!"
-        sys.exit(0)
+    args = parser.parse_args()
 
     # Parse configuration file if it was provided
     if args.config_file is not None:
         with open(args.config_file, 'r') as f:
             config = json.load(f)
         try:
-            config["wordcloud_configuration"]["stopwords"] = [word.strip() for word in config["wordcloud_configuration"]["stopwords"].split(" ")]
+            if config["wordcloud_config"]["stopwords"] is not None:
+                config["wordcloud_config"]["stopwords"] = [word.strip() for word in config["wordcloud_config"]["stopwords"].split(" ")]
         except KeyError:
             pass
     else:
-        config = { "wordcloud_configuration": {} }
+        config = { "wordcloud_config": {} }
 
     # Parse command line arguments into configuration if provided
     arghelper.load_args(args, config)
@@ -60,7 +58,7 @@ def main():
     # Filter out stop words
     print "Filtering out stop words..."
     try:
-        custom_stopwords = config["wordcloud_configuration"]["stopwords"]
+        custom_stopwords = config["wordcloud_config"]["stopwords"]
         freq_tuple_filtered = word_counter.filter_stopwords(freq_tuple, custom_stopwords)
     except KeyError:
         freq_tuple_filtered = word_counter.filter_stopwords(freq_tuple)
@@ -68,21 +66,44 @@ def main():
     # Get top n of those
     print "Getting top words..."
     try:
-        if config["wordcloud_configuration"]["max_words"] > 200:
-            max_words = config["wordcloud_configuration"]["max_words"]
+        if config["wordcloud_config"]["max_words"] > 200:
+            max_words = config["wordcloud_config"]["max_words"]
         else:
             max_words = 200
     except:
         max_words = 200
     freq_top = tuple_helper.get_nlargest_tuples(freq_tuple_filtered, max_words, 1)
 
+    # Create a mask if an image was provided for one
+    if config["wordcloud_config"]["mask"] is not None:
+        print "Generating mask image..."
+
+        # Verify file exists
+        if not os.path.isfile(config["wordcloud_config"]["mask"]):
+            raise IOError("Couldn't locate mask file...did you make sure to specify the URL relative to where you are running the script?")
+
+        # Use numpy to turn it into an array
+        config["wordcloud_config"]["mask"] = np.array(Image.open(config["wordcloud_config"]["mask"]))
+
     # Parameters for word cloud
     # http://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html#wordcloud.WordCloud
-    wordcloud_args = config["wordcloud_configuration"]
+    wordcloud_args = copy.copy(config["wordcloud_config"])
     wordcloud_args.pop("stopwords", None)
+    wordcloud_args.pop("coloring", None)
 
-    # Generate the word cloud and show
+    # Generate the word cloud
     wordcloud = WordCloud(**wordcloud_args).generate_from_frequencies(freq_top)
+
+    # If coloring is selected, recolor
+    try:
+        if config["wordcloud_config"]["coloring"] is True:
+            print "Recoloring image..."
+            image_colors = ImageColorGenerator(config["wordcloud_config"]["mask"])
+            wordcloud.recolor(color_func=image_colors)
+    except KeyError:
+        pass
+
+    # Show the wordcloud
     image = wordcloud.to_image()
     image.show()
 

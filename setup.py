@@ -27,8 +27,7 @@ setup(name='facebook_wordcloud',
           'python-dateutil',
           'lxml',
           'Pillow',
-          'numpy',
-          'arghelper'
+          'numpy'
       ],
       zip_safe=False,
       entry_points = {
