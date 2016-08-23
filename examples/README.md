@@ -19,12 +19,13 @@ For simplicity, I've provided four examples. The first (`default`) is simply the
 
 Each example is essentially a `config.json` file that can be specified as a command line argument to the script.
 
+    cd examples
     facebook_wordcloud messages_sample.htm "Foo Bar" -c default/config.json
     facebook_wordcloud messages_sample.htm "Foo Bar" -c simple/config.json
     facebook_wordcloud messages_sample.htm "Foo Bar" -c masked/config.json
     facebook_wordcloud messages_sample.htm "Foo Bar" -c colored/config.json
 
-Mask was found at: http://www.stencilry.org/stencils/
+Masks were found at: http://www.stencilry.org/stencils/
 
 ### Default
 ![Default](default/output.png)
