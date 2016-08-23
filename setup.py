@@ -25,7 +25,8 @@ setup(name='facebook_wordcloud',
       install_requires=[
           'wordcloud',
           'python-dateutil',
-          'lxml'
+          'lxml',
+          'Pillow'
       ],
       zip_safe=False,
       entry_points = {

@@ -12,6 +12,10 @@ For Debian/Ubuntu:
 
     sudo apt-get install libxml2-dev libxslt-dev python-dev
 
+This also uses `Pillow` to handle image manipulation. This requires `libjpeg`, `zlib`, and `libfreetype`:
+
+    sudo apt-get install libjpeg-dev zlib1g-dev libfreetype6-dev
+
 Installation
 ------------
     pip install .
@@ -39,3 +43,8 @@ Benchmarks from attempting to analyze a 60 MB file:
 +---------------+-------------------------+-------------------+
 | lxml          | 1945                    | 910 MB (0.91 GB)  |
 +---------------+-------------------------+-------------------+
+
+Issues
+------
+**ImportError: The _imagingft C module is not installed**
+This means you don't have `libfreetype` installed. See the Requirements section. If installing it does not work, you may have to uninstall and reinstall `Pillow` via `pip`.
