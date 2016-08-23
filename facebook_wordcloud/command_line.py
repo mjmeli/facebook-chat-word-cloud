@@ -61,9 +61,9 @@ def main():
     print "Filtering out stop words..."
     try:
         custom_stopwords = config['wordcloud_configuration']['stopwords']
+        freq_tuple_filtered = word_counter.filter_stopwords(freq_tuple, custom_stopwords)
     except KeyError:
-        custom_stopwords = []
-    freq_tuple_filtered = word_counter.filter_stopwords(freq_tuple, custom_stopwords)
+        freq_tuple_filtered = word_counter.filter_stopwords(freq_tuple)
 
     # Get top 200 of those
     print "Getting top words..."
