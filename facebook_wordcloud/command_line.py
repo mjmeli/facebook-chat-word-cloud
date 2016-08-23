@@ -14,8 +14,6 @@ import numpy as np
 from PIL import Image
 
 def main():
-    print "Alpha Development"
-
     # Set up argument parser
     parser = argparse.ArgumentParser()
     arghelper.generate_argparse(parser)
@@ -37,15 +35,17 @@ def main():
     arghelper.load_args(args, config)
 
     print "Loading file..."
-    filename = args.messages_file
+    if not args.sample:
+        filename = args.messages_file
+    else:
+        filename = os.path.join(os.path.dirname(__file__), "messages_sample.htm")
+        args.users = "Foo Bar"
     with open(filename, 'r') as f:
         messages_file_data = f.read()
 
-    # Parse the HTML (may take a long time)
+    # Parse the HTML and extract messages (may take a long time)
     print "Building HTML tree..."
     message_parser = MessageParser(messages_file_data)
-
-    # Extract messages from the parsed HTML
     print "Parsing messages..."
     users = [user.strip() for user in args.users.split(",") if len(user.strip()) > 0]
     thread = message_parser.parse_thread(users)
@@ -77,21 +77,14 @@ def main():
     # Create a mask if an image was provided for one
     if config["wordcloud_config"]["mask"] is not None:
         print "Generating mask image..."
-
-        # Verify file exists
         if not os.path.isfile(config["wordcloud_config"]["mask"]):
             raise IOError("Couldn't locate mask file...did you make sure to specify the URL relative to where you are running the script?")
-
-        # Use numpy to turn it into an array
         config["wordcloud_config"]["mask"] = np.array(Image.open(config["wordcloud_config"]["mask"]))
 
-    # Parameters for word cloud
-    # http://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html#wordcloud.WordCloud
+    # Generate the word cloud
     wordcloud_args = copy.copy(config["wordcloud_config"])
     wordcloud_args.pop("stopwords", None)
     wordcloud_args.pop("coloring", None)
-
-    # Generate the word cloud
     wordcloud = WordCloud(**wordcloud_args).generate_from_frequencies(freq_top)
 
     # If coloring is selected, recolor

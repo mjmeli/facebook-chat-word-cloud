@@ -74,6 +74,9 @@ def generate_argparse(parser):
     parser.add_argument("-color", "--coloring",
                         help="importance of relative word frequencies for font size",
                         action="store_true")
+    parser.add_argument("-sample", "--sample",
+                        help="use a sample conversation, which is likely much faster than your actual one; useful for trying with different designs",
+                        action="store_true")
 
 # Load args that were provided into a dictionary
 def load_args(args, store):
