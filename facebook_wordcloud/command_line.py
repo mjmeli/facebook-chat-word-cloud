@@ -65,9 +65,16 @@ def main():
     except KeyError:
         freq_tuple_filtered = word_counter.filter_stopwords(freq_tuple)
 
-    # Get top 200 of those
+    # Get top n of those
     print "Getting top words..."
-    freq_top = tuple_helper.get_nlargest_tuples(freq_tuple_filtered, 200, 1)
+    try:
+        if config["wordcloud_configuration"]["max_words"] > 200:
+            max_words = config["wordcloud_configuration"]["max_words"]
+        else:
+            max_words = 200
+    except:
+        max_words = 200
+    freq_top = tuple_helper.get_nlargest_tuples(freq_tuple_filtered, max_words, 1)
 
     # Parameters for word cloud
     # http://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html#wordcloud.WordCloud
