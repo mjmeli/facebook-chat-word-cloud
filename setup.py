@@ -27,14 +27,14 @@ setup(name='facebook_wordcloud',
           'python-dateutil',
           'lxml',
           'Pillow',
-          'nltk',
-          'numpy'
+          'numpy',
+          'arghelper'
       ],
       zip_safe=False,
       entry_points = {
           'console_scripts': ['facebook_wordcloud=facebook_wordcloud.command_line:main'],
       },
       test_suite='nose.collector',
-      tests_require=['nose'],
+      tests_require=['nose', 'mock'],
       include_package_data=True
 )

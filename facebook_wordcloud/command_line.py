@@ -5,23 +5,52 @@ import tuple_helper
 from wordcloud import WordCloud
 
 import os
+import sys
 import json
+import argparse
+import arghelper
 
 def main():
     print "Alpha Development"
 
+    # Set up argument parser
+    parser = argparse.ArgumentParser()
+    arghelper.generate_argparse(parser)
+    try:
+        args = parser.parse_args()
+    except:
+        parser.print_help()
+        print "For more information on word cloud options, see:\n  https://github.com/amueller/word_cloud"
+        print "I recommend using a config.json file to set options!"
+        sys.exit(0)
+
+    # Parse configuration file if it was provided
+    if args.config_file is not None:
+        with open(args.config_file, 'r') as f:
+            config = json.load(f)
+        try:
+            config["wordcloud_configuration"]["stopwords"] = config["wordcloud_configuration"]["stopwords"].split(" ")
+        except KeyError:
+            pass
+    else:
+        config = { "wordcloud_configuration": {} }
+
+    # Parse command line arguments into configuration if provided
+    arghelper.load_args(args, config)
+
     print "Loading file..."
-    TESTDATA_FILENAME = os.path.join(os.path.dirname(__file__), "tmp/messages.htm")
-    with open(TESTDATA_FILENAME, 'r') as f:
-        testdata = f.read()
+    filename = args.messages_file
+    with open(filename, 'r') as f:
+        messages_file_data = f.read()
 
     # Parse the HTML (may take a long time)
     print "Building HTML tree..."
-    parser = MessageParser(testdata)
+    message_parser = MessageParser(messages_file_data)
 
     # Extract messages from the parsed HTML
     print "Parsing messages..."
-    thread = parser.parse_thread("Kylie Geller")
+    users = [user.strip() for user in args.users.split(",") if len(user.strip()) > 0]
+    thread = message_parser.parse_thread(users)
     messages = thread.get_messages_contents()
 
     # Get top frequencies of each word
@@ -30,7 +59,11 @@ def main():
 
     # Filter out stop words
     print "Filtering out stop words..."
-    freq_tuple_filtered = word_counter.filter_stopwords(freq_tuple)
+    try:
+        custom_stopwords = config['wordcloud_configuration']['stopwords']
+    except KeyError:
+        custom_stopwords = []
+    freq_tuple_filtered = word_counter.filter_stopwords(freq_tuple, custom_stopwords)
 
     # Get top 200 of those
     print "Getting top words..."
@@ -38,26 +71,6 @@ def main():
 
     # Parameters for word cloud
     # http://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html#wordcloud.WordCloud
-    # TODO: Implement these as command line parameters
-    JSON_FILENAME = os.path.join(os.path.dirname(__file__), "../config.json")
-    with open(JSON_FILENAME, 'r') as f:
-        config = json.load(f)
-    # wordcloud_args = {}
-    # wordcloud_args["font_path"] = None
-    # wordcloud_args["width"] = 400
-    # wordcloud_args["height"] = 200
-    # wordcloud_args["ranks_only"] = False
-    # wordcloud_args["prefer_horizontal"] = 0.90
-    # wordcloud_args["mask"] = None
-    # wordcloud_args["scale"] = 1.0
-    # wordcloud_args["max_words"] = 200
-    # wordcloud_args["stopwords"] = None
-    # wordcloud_args["background_color"] = "black"
-    # wordcloud_args["max_font_size"] = None
-    # wordcloud_args["min_font_size"] = 4
-    # wordcloud_args["font_step"] = 1
-    # wordcloud_args["mode"] = "RGB"
-    # wordcloud_args["relative_scaling"] = 0.5
     wordcloud_args = config['wordcloud_configuration']
 
     # Generate the word cloud and show

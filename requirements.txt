@@ -1,9 +1,6 @@
-Pillow>=3.3.1
-argparse>=1.2.1
 lxml>=3.6.4
-nltk>=3.2.1
 numpy>=1.11.1
+Pillow>=3.3.1
 python-dateutil>=2.5.3
 six>=1.10.0
 wordcloud>=1.2.1
-wsgiref>=0.1.2
