@@ -28,13 +28,78 @@ Testing
 -------
     python setup.py test
 
+Quick Example Usage
+-------------
+Request your Facebook data archive and get the messages.htm file.
+
+Generate default word cloud:
+
+    facebook_wordcloud examples/messages_sample.htm "Foo Bar"
+
+Use a configuration file for customization:
+
+    facebook_wordcloud examples/messages_sample.htm "Foo Bar" -c config.json
+
+Use the sample conversation file for quick testing:
+
+    facebook_wordcloud examples/messages_sample.htm "Foo Bar" -sample
+
+Output the word cloud to an image
+
+    facebook_wordcloud examples/messages_sample.htm "Foo Bar" -o output.png
+
+Detailed Usage Usage
+-----
+This is essentially a command line wrapper around the .. _Andreas Muller's: https://github.com/amueller_ (amueller) .. _word_cloud: https://github.com/amueller/word_cloud_ Python library which passes Facebook Message data to it.
+
+First step is to get your Facebook messages archive:
+    1. Go to Facebook Settings: https://www.facebook.com/settings
+    2. Click the link at the bottom ("Download a copy of your Facebook data")
+    3. Click "Start My Archive" and wait for the download to be ready
+    4. Download and extract
+    5. Pull out or remember the location of the **messages.htm** file
+
+The script is easy to use:
+
+    facebook_wordcloud [messages_file] [users] {optional arguments}
+
+Where,
+- [message_file] is the relative path of your **messages.html** file
+- [users] is a comma separated list of the users involved in the conversation (i.e., if you want the conversation with your friend John Smith, [users] should be "John Smith"). You can specify multiple people for group conversations (i.e. "John Smith, Bob Bobby")
+
+There are a few important optional arguments:
+- the "-c" or "--config-file" arguments allow you to specify a json configuration file. There is an example of one in the root of this directory (**config.json**), and some more examples in the examples/ folder. **I highly recommend using such a file if you want non-default settings**!
+- the "-o" or "--out" option allows you to specify where you want the image to output to
+- the "-sample" or "--sample" option allows you to use an internal sample conversation (same as in examples/messages_sample.htm). Your messages file will likely be large and will take a long time to parse, so when you are customizing, you may find this option helpful.
+- the "-h" or "--help" option shows help
+
+There are many more arguments that mainly allow you to change the configuration of the word cloud. However, *all of these arguments can be specified in the json configuration file*. It will be much easier to use a config file! If you are stubborn, use the "-h" or "--help" option to see all the arguments.
+
+IMPORTANT: Command line arguments override config files!
+
+Helpful Hints
+-------------
+The messages file downloaded from Facebook will probably be quite large (mine was 60 MB). It may take a while to parse, which can get annoying when you are making small changes to get a nice looking word cloud. I highly recommend using the sample conversation I provide as this will parse in seconds and has very high word density. You can either directly reference this file (examples/messages_sample.htm with user "Foo Bar") or just use the "-sample" option with the command
+
+Examples
+--------
+See the **examples** directory for some great examples of what you can do and some more description on the topic of customization.
+
+.. image:: examples/default/output.png
+
+.. image:: examples/simple/output.png
+
+.. image:: examples/masked/output.png
+
+.. image:: examples/colored/output.png
+
 Releasing
 ---------
 https://python-packaging.readthedocs.io/en/latest/minimal.html
 
 Parser Choice
 -------------
-Benchmarks from attempting to analyze a 60 MB file:
+I originally used BeautifulSoup and then switched to the lxml parser. This is slightly annoying because it requires system libraries, but the performance is significantly better. See the benchmarks below from attempting to analyze a 60 MB file:
 
 +---------------+-------------------------+-------------------+
 | Parser        | Build Tree Runtime (ms) | Max Memory Usage  |
