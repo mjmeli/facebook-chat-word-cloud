@@ -30,6 +30,8 @@ def generate_argparse(parser):
     parser.add_argument("-c", "--config-file",
                         help="path to json formatted configuration file",
                         type=lambda x: is_valid_file(parser, x))
+    parser.add_argument("-o", "--out",
+                        help="desired output file for PNG of word cloud")
     parser.add_argument("-font", "--font-path",
                         help="font path to the font that will be used")
     parser.add_argument("-w", "--width",

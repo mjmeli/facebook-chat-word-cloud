@@ -79,6 +79,9 @@ def main():
     image = wordcloud.to_image()
     image.show()
 
-    # Output to a file for now
-    TEMP_FILENAME = os.path.join(os.path.dirname(__file__), "tmp/cloud.png")
-    image.save(TEMP_FILENAME, 'PNG')
+    # If a output file was specified, output to there
+    if args.out is not None:
+        if args.out.endswith("png"):
+            image.save(args.out, 'PNG')
+        else:
+            image.save(args.out + ".png", 'PNG')
