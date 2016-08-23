@@ -50,7 +50,7 @@ Output the word cloud to an image
 
 Detailed Usage Usage
 -----
-This is essentially a command line wrapper around the `Andreas Muller's <https://github.com/amueller>`_  `word_cloud Python library<https://github.com/amueller/word_cloud>`_. This simply parses Facebook messages and passes data to that library.
+This is essentially a command line wrapper around the `Andreas Muller's <https://github.com/amueller>`_ (amueller) `word_cloud Python library <https://github.com/amueller/word_cloud>`_ . This simply parses Facebook messages and passes data to that library.
 
 First step is to get your Facebook messages archive:
 
