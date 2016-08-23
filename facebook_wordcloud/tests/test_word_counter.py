@@ -92,3 +92,31 @@ class TestWordCounter(TestCase):
             ("cake", 1)
         ]
         self.assertEquals(Counter(get_frequencies_tuple(test_strings)), Counter(expected_counts))
+
+    # Test filtering stopwords with a tuple
+    def test_filtering_stopwords_tuple(self):
+        input_tuple = [
+            ("the", 123),
+            ("a", 25),
+            ("apple", 4),
+            ("cake", 2)
+        ]
+        expected_output = [
+            ("apple", 4),
+            ("cake", 2)
+        ]
+        self.assertEquals(Counter(filter_stopwords(input_tuple)), Counter(expected_output))
+
+    # Test filtering stopwords with a tuple
+    def test_filtering_stopwords_dict(self):
+        input_dict = {
+            "the": 1,
+            "a": 1,
+            "apple": 1,
+            "cake": 1
+        }
+        expected_output = {
+            "apple": 1,
+            "cake": 1
+        }
+        self.assertEquals(Counter(filter_stopwords(input_dict)), Counter(expected_output))

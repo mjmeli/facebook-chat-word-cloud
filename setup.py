@@ -26,7 +26,8 @@ setup(name='facebook_wordcloud',
           'wordcloud',
           'python-dateutil',
           'lxml',
-          'Pillow'
+          'Pillow',
+          'nltk'
       ],
       zip_safe=False,
       entry_points = {

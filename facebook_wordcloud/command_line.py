@@ -24,10 +24,16 @@ def main():
     messages = thread.get_messages_contents()
 
     # Get top frequencies of each word
+    print "Analyzing messages for word frequencies..."
     freq_tuple = word_counter.get_frequencies_tuple(messages)
 
+    # Filter out stop words
+    print "Filtering out stop words..."
+    freq_tuple_filtered = word_counter.filter_stopwords(freq_tuple)
+
     # Get top 200 of those
-    freq_top = tuple_helper.get_nlargest_tuples(freq_tuple, 200, 1)
+    print "Getting top words..."
+    freq_top = tuple_helper.get_nlargest_tuples(freq_tuple_filtered, 200, 1)
 
     # Parameters for word cloud
     # http://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html#wordcloud.WordCloud
@@ -47,7 +53,7 @@ def main():
     wordcloud_args["min_font_size"] = 4
     wordcloud_args["font_step"] = 1
     wordcloud_args["mode"] = "RGB"
-    wordcloud_args["relative_scaling"] = 0
+    wordcloud_args["relative_scaling"] = 0.5
 
     # Generate the word cloud and show
     wordcloud = WordCloud(**wordcloud_args).generate_from_frequencies(freq_top)
