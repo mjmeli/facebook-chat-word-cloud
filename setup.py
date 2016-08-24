@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='facebook_wordcloud',
-      version='1.01',
+      version='1.02',
       description='A Python tool for generating a word cloud for a Facebook chat conversation.',
       long_description=readme(),
       classifiers=[

@@ -75,11 +75,14 @@ def main():
     freq_top = tuple_helper.get_nlargest_tuples(freq_tuple_filtered, max_words, 1)
 
     # Create a mask if an image was provided for one
-    if config["wordcloud_config"]["mask"] is not None:
-        print "Generating mask image..."
-        if not os.path.isfile(config["wordcloud_config"]["mask"]):
-            raise IOError("Couldn't locate mask file...did you make sure to specify the URL relative to where you are running the script?")
-        config["wordcloud_config"]["mask"] = np.array(Image.open(config["wordcloud_config"]["mask"]))
+    try:
+        if config["wordcloud_config"]["mask"] is not None:
+            print "Generating mask image..."
+            if not os.path.isfile(config["wordcloud_config"]["mask"]):
+                raise IOError("Couldn't locate mask file...did you make sure to specify the URL relative to where you are running the script?")
+            config["wordcloud_config"]["mask"] = np.array(Image.open(config["wordcloud_config"]["mask"]))
+    except KeyError:
+        pass
 
     # Generate the word cloud
     wordcloud_args = copy.copy(config["wordcloud_config"])

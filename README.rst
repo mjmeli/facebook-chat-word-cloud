@@ -25,6 +25,7 @@ Development
 -----------
 
     git clone https://github.com/mjmeli/facebook-chat-word-cloud.git
+    
     pip install -e .
 
 Testing
