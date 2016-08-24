@@ -18,10 +18,12 @@ This also uses `Pillow` to handle image manipulation. This requires `libjpeg`, `
 
 Installation
 ------------
-    pip install .
+    pip install facebook_wordcloud
 
 Development
 -----------
+
+    git clone https://github.com/mjmeli/facebook-chat-word-cloud.git
     pip install -e .
 
 Testing
