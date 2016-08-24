@@ -2,6 +2,7 @@ facebook-chat-word-cloud
 ========================
 .. image:: https://travis-ci.org/mjmeli/facebook-chat-word-cloud.svg?branch=master
     :target: https://travis-ci.org/mjmeli/facebook-chat-word-cloud
+
 A Python tool for generating a word cloud for a Facebook chat conversation.
 
 Requirements
@@ -31,7 +32,7 @@ Testing
     python setup.py test
 
 Quick Example Usage
--------------
+-------------------
 Request your Facebook data archive and get the messages.htm file.
 
 Generate default word cloud:
@@ -50,8 +51,8 @@ Output the word cloud to an image
 
     facebook_wordcloud examples/messages_sample.htm "Foo Bar" -o output.png
 
-Detailed Usage Usage
------
+Detailed Usage
+--------------
 This is essentially a command line wrapper around the `Andreas Muller's <https://github.com/amueller>`_ (amueller) `word_cloud Python library <https://github.com/amueller/word_cloud>`_ . This simply parses Facebook messages and passes data to that library.
 
 First step is to get your Facebook messages archive:
@@ -90,15 +91,15 @@ Examples
 --------
 See the **examples** directory for some great examples of what you can do and some more description on the topic of customization.
 
-.. image:: examples/default/output.png
+.. image:: http://i.imgur.com/cKP4nJB.png
 
-.. image:: examples/simple/output.png
+.. image:: http://i.imgur.com/7Q4bjdY.png
 
-.. image:: examples/colored2/output.png
+.. image:: http://i.imgur.com/2E9HRF5.png
 
-.. image:: examples/masked/output.png
+.. image:: http://i.imgur.com/JDYoVxm.png
 
-.. image:: examples/colored/output.png
+.. image:: http://i.imgur.com/UXIGvLW.png
 
 Parser Choice
 -------------
