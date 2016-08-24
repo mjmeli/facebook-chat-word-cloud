@@ -98,10 +98,6 @@ See the **examples** directory for some great examples of what you can do and so
 
 .. image:: examples/colored/output.png
 
-Releasing
----------
-https://python-packaging.readthedocs.io/en/latest/minimal.html
-
 Parser Choice
 -------------
 I originally used BeautifulSoup and then switched to the lxml parser. This is slightly annoying because it requires system libraries, but the performance is significantly better. See the benchmarks below from attempting to analyze a 60 MB file:
