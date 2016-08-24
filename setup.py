@@ -5,11 +5,11 @@ def readme():
         return f.read()
 
 setup(name='facebook_wordcloud',
-      version='0.1',
+      version='1.0',
       description='A Python tool for generating a word cloud for a Facebook chat conversation.',
       long_description=readme(),
       classifiers=[
-          'Development Status :: 3 - Alpha',
+          'Development Status :: 5 - Production/Stable',
           'Environment :: Console',
           'Intended Audience :: End Users/Desktop',
           'License :: OSI Approved :: MIT License',
