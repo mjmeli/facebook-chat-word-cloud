@@ -31,7 +31,7 @@ class TestMessageParser(TestCase):
         self.assertTrue(str(msg) == "John Smith (Sat Jan 02, 2016 12:15 PM): You are super fly")
 
         # The following should fail
-        self.assertRaises(AttributeError, Message, "John Smith", [15, 15, 15], "Test")
+        self.assertRaises(TypeError, Message, "John Smith", [15, 15, 15], "Test")
 
     # Test message comparisons using dates
     def test_message_comparison(self):
