@@ -11,7 +11,7 @@ This uses `lxml` to parse the messages file provided by Facebook. This requires 
 
 For Debian/Ubuntu:
 
-    sudo apt-get install libxml2-dev libxslt-dev python-dev
+    sudo apt-get install libxml2-dev libxslt-dev python-dev python-tk
 
 This also uses `Pillow` to handle image manipulation. This requires `libjpeg`, `zlib`, and `libfreetype`:
 
