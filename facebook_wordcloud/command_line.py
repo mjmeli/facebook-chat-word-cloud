@@ -72,7 +72,7 @@ def main():
             max_words = 200
     except:
         max_words = 200
-    freq_top = tuple_helper.get_nlargest_tuples(freq_tuple_filtered, max_words, 1)
+    freq_top = dict(tuple_helper.get_nlargest_tuples(freq_tuple_filtered, max_words, 1))
 
     # Create a mask if an image was provided for one
     try:
