@@ -33,7 +33,7 @@ Testing
 
 Major Facebook Change
 ---------------------
-Recently, Facebook switched identifying everyone in messenger chats from their actual name to a `@facebook.com` address. What this means is that you will have to figure out your friend's `@facebook.com` address for this library to work as otherwise it will not be able to identify the message threads. You can do this relatively simply by looking in the `messages.htm` file and finding your messages and looking at the thread header (or possibly the sending user), but please keep this in mind.
+Recently, Facebook switched identifying everyone in messenger chats from their actual name to a `@facebook.com` address. What this means is that you will have to figure out your friend's `@facebook.com` address for this library to work as otherwise it will not be able to identify the message threads. You can do this relatively simply by looking in the `messages.htm` file and finding your messages and looking at the thread header or by using a site like http://findmyfbid.com/, but please keep this in mind.
 
 Unfortunately, Facebook did not backfill this change. So all names prior to the change are real names, and all names after the change are addresses. It would be difficult to support both with the current design so the unfortunate solution in the name of future compatibility over past compatibility is that all messages with your real names will be ignored. This sucks, I agree. Feel free to contribute if you want to try and fix it.
 
