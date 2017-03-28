@@ -83,8 +83,8 @@ class MessageParser:
         if type(users) is not list:
             users = [users]
 
-        # Add user's name to the list of users
-        users.append(self.get_users_name())
+        # Add user's @facebook.com address to the list of users
+        users.append(self.get_users_facebookaddress())
 
         # Create a new thread object
         thread = Thread(users)
@@ -143,8 +143,6 @@ class MessageParser:
                     # a new user was added to the thread. In this scenario,
                     # skip the rest of the thread. Else, skip just this message.
                     if not sending_user in users:
-                        break
-                    else:
                         continue
 
         # If matches are zero, we couldn't find the conversation
@@ -160,3 +158,10 @@ class MessageParser:
     # Parse the HTML for the user's name
     def get_users_name(self):
         return self.html.xpath("/html/body/div/h1/text()")[0]
+
+    # Parse the HTML for the user's name or @facebook.com address
+    def get_users_facebookaddress(self):
+        # just take the most common address in the file
+        all_names_dirty = self.html.xpath("//div[@class='thread']/text()")
+        all_names_clean = [y.strip() for x in all_names_dirty for y in x.split(',') if y.strip()]
+        return Counter(all_names_clean).most_common(1)[0][0]

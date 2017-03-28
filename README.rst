@@ -25,16 +25,25 @@ Development
 -----------
 
     git clone https://github.com/mjmeli/facebook-chat-word-cloud.git
-    
     pip install -e .
 
 Testing
 -------
     python setup.py test
 
+Major Facebook Change
+---------------------
+Recently, Facebook switched identifying everyone in messenger chats from their actual name to a `@facebook.com` address. What this means is that you will have to figure out your friend's `@facebook.com` address for this library to work as otherwise it will not be able to identify the message threads. You can do this relatively simply by looking in the `messages.htm` file and finding your messages and looking at the thread header (or possibly the sending user), but please keep this in mind.
+
+Unfortunately, Facebook did not backfill this change. So all names prior to the change are real names, and all names after the change are addresses. It would be difficult to support both with the current design so the unfortunate solution in the name of future compatibility over past compatibility is that all messages with your real names will be ignored. This sucks, I agree. Feel free to contribute if you want to try and fix it.
+
+I'm really sorry for the inconvenience.
+
 Quick Example Usage
 -------------------
 Request your Facebook data archive and get the messages.htm file.
+
+**\* Please see note in section "Major Facebook Change" section**
 
 Generate default word cloud:
 
@@ -71,7 +80,9 @@ The script is easy to use:
 Where,
 
 - [message_file] is the relative path of your **messages.html** file
-- [users] is a comma separated list of the users involved in the conversation (i.e., if you want the conversation with your friend John Smith, [users] should be "John Smith"). You can specify multiple people for group conversations (i.e. "John Smith, Bob Bobby")
+- [users] is a comma separated list of the users* involved in the conversation (i.e., if you want the conversation with your friend John Smith, [users] should be "John Smith"). You can specify multiple people for group conversations (i.e. "John Smith, Bob Bobby")
+
+**\* Please see note in section "Finding Your Friends Name" section**
 
 There are a few important optional arguments:
 

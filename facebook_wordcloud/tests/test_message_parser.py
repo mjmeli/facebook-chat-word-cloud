@@ -121,6 +121,11 @@ class TestMessageParser(TestCase):
         parser = MessageParser(self.testdata)
         self.assertEquals("John Smith", parser.get_users_name())
 
+    # Test get_users_facebookaddress functionality
+    def test_get_users_facebookaddress(self):
+        parser = MessageParser(self.testdata)
+        self.assertEquals("John Smith", parser.get_users_facebookaddress())
+
     def test_parser(self):
         parser = MessageParser(self.testdata)
         thread = parser.parse_thread("Foo Bar")
